@@ -7,7 +7,11 @@ import AffiliateForm from "./AffiliateForm";
 import { formatDate } from "@/app/lib/utils";
 import { Dialog } from "@headlessui/react";
 
-export default function AffiliateList() {
+export default function AffiliateList({
+  refreshTrigger,
+}: {
+  refreshTrigger: number;
+}) {
   // Estados del componente
   const [affiliates, setAffiliates] = useState<Affiliate[]>([]);
   const [editingAffiliate, setEditingAffiliate] = useState<
@@ -95,12 +99,12 @@ export default function AffiliateList() {
   useEffect(() => {
     setCurrentPage(1);
     reloadAffiliates();
-  }, [searchTerm, statusFilter]);
+  }, [searchTerm, statusFilter, refreshTrigger]);
 
   // Recargar cuando cambia la paginación
   useEffect(() => {
     reloadAffiliates();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage, refreshTrigger]);
 
   // Manejadores de acciones
   const handleDelete = async (id: number) => {
@@ -583,7 +587,7 @@ export default function AffiliateList() {
       </Dialog>
 
       {/* Tabla de resultados */}
-      <div className="overflow-x-auto h-[47vh]">
+      <div className="overflow-x-auto h-[42vh]">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
